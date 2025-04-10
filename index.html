@@ -14,13 +14,13 @@
       height: 100vh;
       direction: rtl;
     }
-    form {
-      background: white;
+    .container {
+      width: 100%;
+      max-width: 500px;
       padding: 2rem;
+      background: white;
       border-radius: 16px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 400px;
     }
     label {
       display: block;
@@ -44,61 +44,73 @@
     button:hover {
       background-color: #0056b3;
     }
+    #response {
+      display: none;
+      margin-top: 1rem;
+      background: #e6ffe6;
+      padding: 1rem;
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
-  <form action="https://hook.us2.make.com/qhfnlz2ppdwuwuyy6uwwjdtxghw2bkna" method="POST">
-    <label for="interests">מהם התחומים שמעניינים אותך?</label>
-    <input type="text" id="interests" name="interests" placeholder="למשל: טכנולוגיה, אוכל, ספורט">
+  <div class="container">
+    <form id="jobForm">
+      <label for="interests">מהם התחומים שמעניינים אותך?</label>
+      <input type="text" id="interests" name="interests" placeholder="למשל: טכנולוגיה, אוכל, ספורט">
 
-    <label for="availability">כמה זמן אתה פנוי לעבוד בשבוע?</label>
-    <select id="availability" name="availability">
-      <option value="עד 10 שעות">עד 10 שעות</option>
-      <option value="10–20">10–20</option>
-      <option value="20–40">20–40</option>
-      <option value="משרה מלאה">משרה מלאה</option>
-    </select>
+      <label for="availability">כמה זמן אתה פנוי לעבוד בשבוע?</label>
+      <select id="availability" name="availability">
+        <option value="עד 10 שעות">עד 10 שעות</option>
+        <option value="10–20">10–20</option>
+        <option value="20–40">20–40</option>
+        <option value="משרה מלאה">משרה מלאה</option>
+      </select>
 
-    <label for="skills">האם יש לך ניסיון או כישורים מסוימים?</label>
-    <input type="text" id="skills" name="skills" placeholder="למשל: שירות לקוחות, עריכת וידאו">
+      <label for="skills">האם יש לך ניסיון או כישורים מסוימים?</label>
+      <input type="text" id="skills" name="skills" placeholder="למשל: שירות לקוחות, עריכת וידאו">
 
-    <label for="priority">מה הכי חשוב לך בעבודה?</label>
-    <select id="priority" name="priority">
-      <option value="שכר גבוה">שכר גבוה</option>
-      <option value="גמישות בזמנים">גמישות בזמנים</option>
-      <option value="התפתחות מקצועית">התפתחות מקצועית</option>
-      <option value="אווירה צעירה">אווירה צעירה</option>
-    </select>
+      <label for="priority">מה הכי חשוב לך בעבודה?</label>
+      <select id="priority" name="priority">
+        <option value="שכר גבוה">שכר גבוה</option>
+        <option value="גמישות בזמנים">גמישות בזמנים</option>
+        <option value="התפתחות מקצועית">התפתחות מקצועית</option>
+        <option value="אווירה צעירה">אווירה צעירה</option>
+      </select>
 
-    <label for="location">באיזו עיר/אזור אתה גר?</label>
-    <input type="text" id="location" name="location" placeholder="למשל: תל אביב, חיפה, מרחוק">
+      <label for="location">באיזו עיר/אזור אתה גר?</label>
+      <input type="text" id="location" name="location" placeholder="למשל: תל אביב, חיפה, מרחוק">
 
-    <button type="submit">שלח</button>
-  </form>
-</body> 
-</script>  const form = document.getElementById('jobForm');
-const responseBox = document.getElementById('response');
+      <button type="submit">שלח</button>
+    </form>
+    <div id="response"></div>
+  </div>
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+  <script>
+    const form = document.getElementById('jobForm');
+    const responseBox = document.getElementById('response');
 
-  const formData = new FormData(form);
-  const data = Object.fromEntries(formData.entries());
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-  try {
-    const res = await fetch('https://hook.us2.make.com/qhfnlz2ppdwuwuyy6uwwjdtxghw2bkna', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const res = await fetch('https://hook.us2.make.com/qhfnlz2ppdwuwuyy6uwwjdtxghw2bkna', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const text = await res.text();
+        responseBox.style.display = 'block';
+        responseBox.textContent = text;
+      } catch (error) {
+        responseBox.style.display = 'block';
+        responseBox.textContent = 'אירעה שגיאה. נסה שוב.';
+      }
     });
-
-    const text = await res.text();
-    responseBox.style.display = 'block';
-    responseBox.textContent = text;
-  } catch (error) {
-    responseBox.style.display = 'block';
-    responseBox.textContent = 'אירעה שגיאה. נסה שוב.';
-  }
-});
-
+  </script>
+</body>
 </html>
