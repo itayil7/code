@@ -7,11 +7,12 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: #f9fafb;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      margin: 0;
       direction: rtl;
     }
     .container {
@@ -20,36 +21,49 @@
       padding: 2rem;
       background: white;
       border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     }
     label {
       display: block;
       margin: 1rem 0 0.3rem;
+      font-weight: bold;
     }
-    input, select, textarea, button {
+    input, select, button {
       width: 100%;
-      padding: 0.5rem;
-      border-radius: 8px;
+      padding: 0.6rem;
+      border-radius: 10px;
       border: 1px solid #ccc;
       box-sizing: border-box;
+      margin-bottom: 1rem;
+      font-size: 1rem;
     }
     button {
-      background-color: #007bff;
+      background-color: #28a745;
       color: white;
       font-weight: bold;
-      margin-top: 1.5rem;
       cursor: pointer;
       transition: background-color 0.3s;
+      border: none;
     }
     button:hover {
-      background-color: #0056b3;
+      background-color: #218838;
     }
     #response {
       display: none;
-      margin-top: 1rem;
-      background: #e6ffe6;
-      padding: 1rem;
-      border-radius: 10px;
+      margin-top: 1.5rem;
+      background: #f0fdf4;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid #34d399;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    #response h3 {
+      margin-top: 0;
+      color: #065f46;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -83,15 +97,22 @@
 
       <button type="submit">שלח</button>
     </form>
-    <div id="response"></div>
+    <div id="response">
+      <h3>🎯 ההמלצה האישית שלך:</h3>
+      <p id="responseText"></p>
+    </div>
   </div>
 
   <script>
     const form = document.getElementById('jobForm');
     const responseBox = document.getElementById('response');
+    const responseText = document.getElementById('responseText');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      responseBox.style.display = 'none';
+      responseText.textContent = '';
 
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
@@ -105,10 +126,11 @@
 
         const text = await res.text();
         responseBox.style.display = 'block';
-        responseBox.textContent = text;
+        responseText.textContent = text;
+        form.reset();
       } catch (error) {
         responseBox.style.display = 'block';
-        responseBox.textContent = 'אירעה שגיאה. נסה שוב.';
+        responseText.textContent = 'אירעה שגיאה. נסה שוב.';
       }
     });
   </script>
