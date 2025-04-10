@@ -75,31 +75,30 @@
 
     <button type="submit">שלח</button>
   </form>
-</body> <script>
-  const form = document.getElementById('jobForm');
-  const responseBox = document.getElementById('response');
+</body> 
+</script>  const form = document.getElementById('jobForm');
+const responseBox = document.getElementById('response');
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
 
-    try {
-      const res = await fetch('https://hook.us2.make.com/qhfnlz2ppdwuwuyy6uwwjdtxghw2bkna', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+  try {
+    const res = await fetch('https://hook.us2.make.com/qhfnlz2ppdwuwuyy6uwwjdtxghw2bkna', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
 
-      const text = await res.text();
-      responseBox.style.display = 'block';
-      responseBox.textContent = text;
-    } catch (error) {
-      responseBox.style.display = 'block';
-      responseBox.textContent = 'אירעה שגיאה. נסה שוב.';
-    }
-  });
-</script>
+    const text = await res.text();
+    responseBox.style.display = 'block';
+    responseBox.textContent = text;
+  } catch (error) {
+    responseBox.style.display = 'block';
+    responseBox.textContent = 'אירעה שגיאה. נסה שוב.';
+  }
+});
 
 </html>
